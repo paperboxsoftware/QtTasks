@@ -24,11 +24,13 @@ private:
 
 private slots:
     void on_actionAbout_triggered();
-    void on_pushButton_clicked();
+
+
 public slots:
-    QVector<int> mySlot(QString);
+    bool validateSlot(QString);
+    void buttonClicked();
 signals:
-    void mySignal(QVector<int>);
+    void validateSignal(bool);
 };
 
 #endif // MAINWINDOW_H
