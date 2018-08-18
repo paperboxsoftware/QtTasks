@@ -25,6 +25,12 @@ void MainWindow::on_actionAbout_triggered(){
   QMessageBox::about(0, "About", "PaperBoxSoftWare Card Validator v 0.1");
 }
 
+//void MainWindow::keyPressEvent(*event)
+//{
+//    if(event == Qt::Key_Enter){
+
+//    }
+//}
 
 MainWindow::~MainWindow()
 {
@@ -32,78 +38,6 @@ MainWindow::~MainWindow()
 }
 
 
-
-bool MainWindow::validateSlot(QString cardNumber)
-{
-
-}
-
-//void MainWindow::buttonClicked()
-//{
-//    QString cardNumber = ui->lineEdit->text();
-//   // QString::iterator strIt = cardNumber.begin();
-//    QVector<int> intVector;
-
-//    for(auto it : cardNumber)
-//    {
-//        //QVariant var = it;
-//        //int number = it.toInt();
-//        int number = it.digitValue();
-//        intVector.push_back(number);
-////        ++strIt;
-//    }
-
-//    for(auto it : intVector)
-//    {
-//         qDebug() << it;
-//    }
-
-//    qDebug() << "nocha";
-//    qDebug() << intVector.isEmpty();
-
-
-////    for(int i = 0; i < cardNumber.length();++i){
-////        intVector.push_back(cardNumber[i].toInt());
-////    }
-
-//    auto sum = 0;
-//    bool isValid = false;
-
-//    for(auto it : intVector){
-//        sum += (it-48);
-//    }
-//    qDebug() << "sum is" << sum;
-//qDebug() << sum%10;
-//    sum %=  10;
-//   // auto vSize = sizeof(intVector)/sizeof(int);
-//  auto vSize =  intVector.size();
-//    qDebug() << (sum%10==0);
-
-//    qDebug() << vSize;
-//    if(sum == 0 && vSize == 16){
-//        isValid = true;
-//    }
-//    else if(sum == 1 && vSize == 16){
-//        isValid = true;
-//    }
-
-
-
-
-//    if(isValid)
-//    ui->textEdit->append("card is valid");
-////    else if(intVector[0]==4)
-//// ui->textEdit->append("card is visa");
-//    else
-//        ui->textEdit->append("card is not valid");
-
-//    emit(validateSignal(isValid)) ;
-
-
-//}
-
-
-// edit algorith using Stack
 void MainWindow::buttonClicked()
 {
     QString cardNumber = ui->lineEdit->text();
@@ -121,73 +55,40 @@ void MainWindow::buttonClicked()
 
     QVector<int> backVector;
             //(intVector.rbegin(),intVector.rend());
-    QVector<int>::reverse_iterator rbeg = intVector.rbegin();
+    QVector<int>::reverse_iterator rBeg = intVector.rbegin();
     QVector<int>::reverse_iterator rEnd = intVector.rend();
 
-    while(rbeg!=rEnd){
-        backVector.push_back(*rbeg);
-        rbeg++;
+    while(rBeg!=rEnd){
+        backVector.push_back(*rBeg);
+        rBeg++;
     }
 
-    for(auto it : backVector)
-    {
-         qDebug() << it;
-    }
-
-    qDebug() << "nocha";
-    qDebug() << backVector.isEmpty();
+    int sum = 0;
+    int cardLength    = intVector.size();
+    int parity    = (cardLength-1) % 2;
 
 
-//    for(int i = 0; i < cardNumber.length();++i){
-//        intVector.push_back(cardNumber[i].toInt());
-//    }
+       for (auto rBeg: backVector)
+       {
+//         cDigit[0]  = pPurported[i-1];
+//         int nDigit = atoi(cDigit);
 
-    auto sum = 0;
-    bool isValid = false;
-    int iParity = backVector.size()%2;
-    qDebug() << "iParity is" << iParity;
+         if (parity == cardLength % 2)
+           rBeg = rBeg * 2;
 
-    for(auto it : backVector){
-
-        if(iParity==it%2) { it=it*2;}
-
-
-
-
-        sum += it/10;
-        qDebug() << "sum is/10" << sum;
-        sum += it%10;
-        qDebug() << "sum is%10" << sum;
-    }
-    isValid = (0==sum%10);
+         sum += rBeg/10;
+         sum += rBeg%10;
+         cardLength--;
+       }
+       bool isValid = (0 == sum % 10) ;
 
 
-    qDebug() << "sum is" << sum;
-qDebug() << sum%10;
-//    sum %=  10;
-   // auto vSize = sizeof(intVector)/sizeof(int);
-  auto vSize =  backVector.size();
-
-
-  qDebug() << (sum%10==0);
-
-    qDebug() << vSize;
-//    if(sum == 0 && vSize == 16){
-//        isValid = true;
-//    }
-//    else if(sum == 1 && vSize == 16){
-//        isValid = true;
-//    }
-
-
-
-
+    ui->textEdit->clear();
     if(isValid)
     ui->textEdit->append("card is valid");
-//    else if(intVector[0]==4)
-// ui->textEdit->append("card is visa");
+
     else
-        ui->textEdit->append("pidor");
+        ui->textEdit->append("card is not valid");
 
     emit(validateSignal(isValid)) ;
 

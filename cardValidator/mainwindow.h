@@ -27,7 +27,7 @@ private slots:
 
 
 public slots:
-    bool validateSlot(QString);
+
     void buttonClicked();
 signals:
     void validateSignal(bool);
